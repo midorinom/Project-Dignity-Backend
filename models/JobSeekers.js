@@ -55,10 +55,12 @@ const educationSchema = new mongoose.Schema({
 
 const JobSeekersSchema = new mongoose.Schema(
   {
+    username: String,
+    hash: String,
     about: aboutSchema,
     skills: [skillsSchema],
     abilityDifferences: abilityDifferencesSchema,
-    experience: experienceSchema,
+    experience: [experienceSchema],
     education: [educationSchema],
   },
   { collection: "jobSeekers" }
