@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TestSchema = new mongoose.Schema(
-  { test: String },
+  { test: { type: String } },
   { collection: "test" }
 );
 
