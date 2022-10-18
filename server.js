@@ -20,10 +20,20 @@ connectDB(process.env.MONGODB_URI);
 app.get("/", (req, res) => res.json("Test Route is Working"));
 
 // Test Database
-const Test = require("./models/Test");
+const Employers = require("./models/Employers");
 app.put("/test", async (req, res) => {
   try {
-    await Test.create({ test: req.body.test });
+    await Employers.create({
+      username: req.body.username,
+      hash: req.body.hash,
+      whoWeAre: req.body.whoWeAre,
+      whatWeDo: req.body.whatWeDo,
+      experience: req.body.experience,
+      location: req.body.location,
+      accessibility: req.body.accessibility,
+      contactNumber: req.body.contactNumber,
+      emailAddress: req.body.emailAddress,
+    });
     res.json({
       status: "okay",
       message: "test object is created in the database",
