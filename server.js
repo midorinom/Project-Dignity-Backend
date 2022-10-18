@@ -51,5 +51,21 @@ app.put("/jobposts", async (req, res) => {
   }
 });
 
+// Test JobSeekers
+const JobSeekers = require("./models/JobSeekers");
+app.put("/jobseekers", async (req, res) => {
+  try {
+    await JobSeekers.deleteMany({});
+    await JobSeekers.create(req.body);
+    res.json({
+      status: "okay",
+      message: "test object is created in the database",
+    });
+  } catch (err) {
+    console.log("PUT /jobseekers", err);
+    res.status(400).json({ status: "error", message: "an error has occurred" });
+  }
+});
+
 // Listen
 app.listen(PORT);
