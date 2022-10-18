@@ -19,27 +19,34 @@ connectDB(process.env.MONGODB_URI);
 // Test Route
 app.get("/", (req, res) => res.json("Test Route is Working"));
 
-// Test Database
+// Test Employers
 const Employers = require("./models/Employers");
-app.put("/test", async (req, res) => {
+app.put("/employers", async (req, res) => {
   try {
-    await Employers.create({
-      username: req.body.username,
-      hash: req.body.hash,
-      whoWeAre: req.body.whoWeAre,
-      whatWeDo: req.body.whatWeDo,
-      experience: req.body.experience,
-      location: req.body.location,
-      accessibility: req.body.accessibility,
-      contactNumber: req.body.contactNumber,
-      emailAddress: req.body.emailAddress,
-    });
+    await Employers.deleteMany({});
+    await Employers.create(req.body);
     res.json({
       status: "okay",
       message: "test object is created in the database",
     });
   } catch (err) {
-    console.log("PUT /test", err);
+    console.log("PUT /employers", err);
+    res.status(400).json({ status: "error", message: "an error has occurred" });
+  }
+});
+
+// Test JobPosts
+const JobPosts = require("./models/JobPosts");
+app.put("/jobposts", async (req, res) => {
+  try {
+    await JobPosts.deleteMany({});
+    await JobPosts.create(req.body);
+    res.json({
+      status: "okay",
+      message: "test object is created in the database",
+    });
+  } catch (err) {
+    console.log("PUT /jobposts", err);
     res.status(400).json({ status: "error", message: "an error has occurred" });
   }
 });
