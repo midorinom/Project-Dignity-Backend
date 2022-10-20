@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-// ============================================
-// All the nested Schemas inside JobPostsSchema
-// ============================================
+// ====================================
+// Nested Schemas inside JobPostsSchema
+// ====================================
 // "About The Job" Tab
 const aboutSchema = new mongoose.Schema({
   title: String,
@@ -59,7 +59,9 @@ const accessibilitySchema = new mongoose.Schema({
   environment: environmentSchema,
 });
 
-// This is the Schema that will be exported
+// ========================================
+// The Schema that will be exported
+// ========================================
 const JobPostsSchema = new mongoose.Schema(
   {
     employerId: String,

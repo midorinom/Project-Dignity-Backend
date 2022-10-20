@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./db/db");
 const jobSeekers = require("./router/jobSeekers");
+const users = require("./router/users");
 
 // Define Variables
 const app = express();
@@ -69,6 +70,7 @@ connectDB(process.env.MONGODB_URI);
 // });
 
 // Routes
+app.use("/api/users", users);
 app.use("/api/jobseekers", jobSeekers);
 
 // Listen
