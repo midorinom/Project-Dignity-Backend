@@ -1,5 +1,7 @@
+// Require
 const mongoose = require("mongoose");
 
+// Schemas
 const aboutSchema = new mongoose.Schema({
   name: String,
   aspiration: String,
@@ -23,10 +25,10 @@ const abilityDifferencesSchema = new mongoose.Schema({
   diffDesc: String,
   support: [String],
   supportDesc: String,
-  comm: String,
+  comm: [String],
   //commSpec optional, only input if comm: "others". Default null.
   commSpec: { type: String, default: null },
-  aids: String,
+  aids: [String],
   //aidsSpec optional, only input if aids: "others". Default null.
   aidsSpec: { type: String, default: null },
   travel: Boolean,
@@ -47,8 +49,10 @@ const experienceSchema = new mongoose.Schema({
 const educationSchema = new mongoose.Schema({
   school: String,
   cert: String,
-  start: String,
-  end: String,
+  startMonth: String,
+  startYear: String,
+  endMonth: String,
+  endYear: String,
   grade: String,
   desc: String,
 });
@@ -66,6 +70,6 @@ const JobSeekersSchema = new mongoose.Schema(
   { collection: "jobSeekers" }
 );
 
+// Export
 const JobSeekers = mongoose.model("JobSeekers", JobSeekersSchema);
-
 module.exports = JobSeekers;
