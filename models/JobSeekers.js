@@ -1,5 +1,7 @@
+// Require
 const mongoose = require("mongoose");
 
+// Schemas
 const aboutSchema = new mongoose.Schema({
   name: String,
   aspiration: String,
@@ -68,6 +70,6 @@ const JobSeekersSchema = new mongoose.Schema(
   { collection: "jobSeekers" }
 );
 
+// Export
 const JobSeekers = mongoose.model("JobSeekers", JobSeekersSchema);
-
 module.exports = JobSeekers;
