@@ -1,3 +1,4 @@
+// Require
 const Employers = require("../models/Employers");
 
 // ===
@@ -26,6 +27,7 @@ const employersUpdate = async (req, res) => {
     await Employers.updateOne(
       { _id: req.body.id },
       {
+        company: req.body.company,
         whoWeAre: req.body.whoWeAre,
         whatWeDo: req.body.whatWeDo,
         experience: req.body.experience,
