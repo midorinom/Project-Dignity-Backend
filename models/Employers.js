@@ -6,6 +6,7 @@ const EmployersSchema = new mongoose.Schema(
   {
     username: { type: String, unique: true },
     hash: String,
+    company: String,
     whoWeAre: String,
     whatWeDo: String,
     experience: String,
