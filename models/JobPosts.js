@@ -6,11 +6,12 @@ const mongoose = require("mongoose");
 // ====================================
 // "About The Job" Tab
 const aboutSchema = new mongoose.Schema({
+  company: String,
   title: String,
   type: String,
   customerFacing: Boolean,
   desc: String,
-  tasks: String,
+  tasks: [String],
   skills: [String],
   minSalary: String,
   maxSalary: String,
