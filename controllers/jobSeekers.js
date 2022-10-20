@@ -5,7 +5,9 @@ const JobSeekers = require("../models/JobSeekers");
 // ====
 const jobSeekersGet = async (req, res) => {
   try {
-    const profileData = await JobSeekers.find({ _id: req.body.id });
+    const profileData = await JobSeekers.find({ _id: req.body.id }).select(
+      "-username -hash"
+    ); // use .select to exclude username and hash from being sent over to the front-end
     res.json(profileData);
   } catch (err) {
     console.log("POST /api/jobseekers/get", err);
