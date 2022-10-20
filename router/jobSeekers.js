@@ -2,13 +2,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  jobSeekersPost,
-  jobSeekersCreate,
+  jobSeekersGet,
+  jobSeekersUpdate,
 } = require("../controllers/jobSeekers");
 
 // Endpoints
-router.post("/post", jobSeekersPost);
-router.patch("/create", jobSeekersCreate);
+router.post("/get", jobSeekersGet);
+router.patch("/update", jobSeekersUpdate);
 
 // Export
 module.exports = router;
