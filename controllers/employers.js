@@ -7,8 +7,8 @@ const Employers = require("../models/Employers");
 const employersGet = async (req, res) => {
   try {
     const profileData = await Employers.find({ _id: req.body.id }).select(
-      "-username -hash"
-    ); // use .select to exclude username and hash from being sent over to the front-end
+      "-username -hash -_id"
+    ); // exclude username, hash and id from being sent over to the front-end
     res.json(profileData);
   } catch (err) {
     console.log("POST /api/employers/get", err);
