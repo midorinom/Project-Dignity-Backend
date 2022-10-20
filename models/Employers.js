@@ -4,8 +4,9 @@ const mongoose = require("mongoose");
 // Schema
 const EmployersSchema = new mongoose.Schema(
   {
-    username: { type: String, unique: true },
+    username: String,
     hash: String,
+    company: String,
     whoWeAre: String,
     whatWeDo: String,
     experience: String,

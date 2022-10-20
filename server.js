@@ -6,6 +6,7 @@ const connectDB = require("./db/db");
 const users = require("./router/users");
 const jobSeekers = require("./router/jobSeekers");
 const employers = require("./router/employers");
+const jobPosts = require("./router/jobPosts");
 
 // Define Variables
 const app = express();
@@ -23,6 +24,7 @@ connectDB(process.env.MONGODB_URI);
 app.use("/api/users", users);
 app.use("/api/jobseekers", jobSeekers);
 app.use("/api/employers", employers);
+app.use("/api/jobposts", jobPosts);
 
 // Listen
 app.listen(PORT);
