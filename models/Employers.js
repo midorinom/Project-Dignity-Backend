@@ -1,7 +1,6 @@
 // Require
 const mongoose = require("mongoose");
 
-// revision (andre): added refactored to include form info under profile
 const employerProfileSchema = new mongoose.Schema({
   company: String,
   whoWeAre: String,
