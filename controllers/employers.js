@@ -27,14 +27,7 @@ const employersUpdate = async (req, res) => {
     await Employers.updateOne(
       { _id: req.body.id },
       {
-        company: req.body.company,
-        whoWeAre: req.body.whoWeAre,
-        whatWeDo: req.body.whatWeDo,
-        experience: req.body.experience,
-        location: req.body.location,
-        accessibility: req.body.accessibility,
-        contact: req.body.contact,
-        email: req.body.email,
+        ...req.body,
       }
     );
     res.json({
