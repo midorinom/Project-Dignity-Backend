@@ -27,7 +27,7 @@ const jobSeekersUpdate = async (req, res) => {
     await JobSeekers.updateOne(
       { _id: req.body.id },
       {
-        profile: { ...req.body.profile },
+        ...req.body,
       }
     );
     res.json({
