@@ -23,13 +23,6 @@ const aboutSchema = new mongoose.Schema({
 });
 
 // Nested Schemas inside accessibilitySchema
-const abilityDiffSchema = new mongoose.Schema({
-  physical: Boolean,
-  visual: Boolean,
-  hearing: Boolean,
-  intellectual: Boolean,
-  autism: Boolean,
-});
 
 const supportSchema = new mongoose.Schema({
   structured: Boolean,
@@ -56,7 +49,7 @@ const environmentSchema = new mongoose.Schema({
 
 // "Accessibility Considerations" tab
 const accessibilitySchema = new mongoose.Schema({
-  abilityDiff: abilityDiffSchema,
+  abilityDiff: [String],
   support: supportSchema,
   environment: environmentSchema,
 });
