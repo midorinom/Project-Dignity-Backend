@@ -6,6 +6,7 @@ const JobSeekers = require("../models/JobSeekers");
 // ====
 const jobSeekersGet = async (req, res) => {
   try {
+    // a: should we do search by username?
     const profileData = await JobSeekers.find({ _id: req.body.id }).select(
       "-username -hash -_id"
     ); // exclude username, hash and id from being sent over to the front-end
@@ -25,6 +26,7 @@ const jobSeekersGet = async (req, res) => {
 const jobSeekersUpdate = async (req, res) => {
   try {
     await JobSeekers.updateOne(
+      // a: search by username and spread req.body to refactor
       { _id: req.body.id },
       {
         about: req.body.about,

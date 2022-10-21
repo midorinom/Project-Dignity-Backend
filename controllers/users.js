@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const usersCreate = async (req, res) => {
   try {
     // User type is not jobSeeker/employer
+    // a: if req.body.type is input automatically, this can be removed?
     if (req.body.type !== "jobSeeker" && req.body.type !== "employer") {
       return res.status(400).json({
         status: "error",
@@ -33,6 +34,7 @@ const usersCreate = async (req, res) => {
 
     // Hash the password and create the user account
     const hash = await bcrypt.hash(req.body.password, 12); // Increase the number for more security
+    // a: would this mean that JobSeekers/Employers.password is redundant?
     const createdUser = {
       username: req.body.username,
       hash: hash,
@@ -83,6 +85,8 @@ const usersLogin = async (req, res) => {
 
     // Assign the found user to a variable
     // Also, add the user type to the response
+    // a: should type be saved in the db upon creation instead?
+    // a: why do we need to send the profile, can we just fetch when needed?
     let user = "";
     let response = {};
     if (jobSeekerUser) {
@@ -94,6 +98,7 @@ const usersLogin = async (req, res) => {
     }
 
     // Check if username and password match
+    // a: should we add jwt?
     const result = await bcrypt.compare(req.body.password, user.hash);
     // No match
     if (!result) {
