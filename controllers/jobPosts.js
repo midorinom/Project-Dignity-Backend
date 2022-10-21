@@ -64,34 +64,18 @@ const jobPostsDelete = async (req, res) => {
   }
 };
 
-// =======
-// Get All
-// =======
-const jobPostsGetAll = async (req, res) => {
-  try {
-    const jobPosts = await JobPosts.find();
-    res.json(jobPosts);
-  } catch (err) {
-    console.log("GET /api/jobposts/get/all", err);
-    res.status(400).json({
-      status: "error",
-      message: "an error has occurred when getting all job posts",
-    });
-  }
-};
-
-// ============
-// Get Filtered
-// ============
-const jobPostsGetFiltered = async (req, res) => {
+// ===
+// Get
+// ===
+const jobPostsGet = async (req, res) => {
   try {
     const jobPosts = await JobPosts.find(req.body);
     res.json(jobPosts);
   } catch (err) {
-    console.log("POST /api/jobposts/get/filtered", err);
+    console.log("POST /api/jobposts/get", err);
     res.status(400).json({
       status: "error",
-      message: "an error has occurred when getting the filtered job posts",
+      message: "an error has occurred when getting the job posts",
     });
   }
 };
@@ -101,6 +85,5 @@ module.exports = {
   jobPostsCreate,
   jobPostsUpdate,
   jobPostsDelete,
-  jobPostsGetAll,
-  jobPostsGetFiltered,
+  jobPostsGet,
 };
