@@ -5,16 +5,14 @@ const {
   jobPostsCreate,
   jobPostsUpdate,
   jobPostsDelete,
-  jobPostsGetAll,
-  jobPostsGetFiltered,
+  jobPostsGet,
 } = require("../controllers/jobPosts");
 
 // Endpoints
 router.put("/create", jobPostsCreate);
 router.patch("/update", jobPostsUpdate);
 router.delete("/delete", jobPostsDelete);
-router.get("/get/all", jobPostsGetAll);
-router.post("/get/filtered", jobPostsGetFiltered);
+router.post("/get", jobPostsGet);
 
 // Export
 module.exports = router;
