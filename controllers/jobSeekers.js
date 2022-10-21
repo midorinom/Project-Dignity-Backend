@@ -9,7 +9,7 @@ const jobSeekersGet = async (req, res) => {
     const profileData = await JobSeekers.find({ _id: req.body.id }).select(
       "-username -hash -_id"
     ); // exclude username, hash and id from being sent over to the front-end
-    res.json(profileData);
+    res.json(profileData[0]);
   } catch (err) {
     console.log("POST /api/jobseekers/get", err);
     res.status(400).json({
@@ -25,10 +25,9 @@ const jobSeekersGet = async (req, res) => {
 const jobSeekersUpdate = async (req, res) => {
   try {
     await JobSeekers.updateOne(
-      // revision (andre): changed updated portion to req.body spread
       { _id: req.body.id },
       {
-        ...req.body,
+        profile: { ...req.body.profile },
       }
     );
     res.json({
