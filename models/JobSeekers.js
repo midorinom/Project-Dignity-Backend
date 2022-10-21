@@ -57,7 +57,6 @@ const educationSchema = new mongoose.Schema({
   desc: String,
 });
 
-// revision (andre): added refactored to include form info under profile
 const jobseekerProfileSchema = new mongoose.Schema({
   about: aboutSchema,
   skills: [skillsSchema],

@@ -83,14 +83,13 @@ const usersLogin = async (req, res) => {
 
     // Assign the found user to a variable
     // Also, add the user type to the response
-    // revision (andre): removed profile (user k/v pair) from response
     let response = {};
     if (jobSeekerUser) {
       response.type = "jobSeeker";
-      response._id = jobSeekerUser._id;
+      response.id = jobSeekerUser._id;
     } else if (employerUser) {
       response.type = "employer";
-      response._id = employerUser._id;
+      response.id = employerUser._id;
     }
 
     // Check if username and password match
@@ -105,7 +104,6 @@ const usersLogin = async (req, res) => {
       });
     }
     // Successful login
-    // revision (andre): removed profile (username, hash k/v pair) from response
     res.json(response); // Return the user's profile and user type to the front-end, username and hash are excluded
   } catch (err) {
     console.log("POST /api/users/login", err);
