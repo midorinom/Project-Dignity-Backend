@@ -83,11 +83,16 @@ const usersLogin = async (req, res) => {
 
     // Assign the found user to a variable
     // Also, add the user type to the response
+
+    let user = "";
+
     let response = {};
     if (jobSeekerUser) {
+      user = jobSeekerUser;
       response.type = "jobSeeker";
       response.id = jobSeekerUser._id;
     } else if (employerUser) {
+      user = employerUser;
       response.type = "employer";
       response.id = employerUser._id;
     }
@@ -95,6 +100,7 @@ const usersLogin = async (req, res) => {
     // Check if username and password match
     // note (andre): pending addition of jwt
     const result = await bcrypt.compare(req.body.password, user.hash);
+
     // No match
     if (!result) {
       console.log("username or password error");
