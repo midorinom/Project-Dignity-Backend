@@ -60,8 +60,10 @@ const accessibilitySchema = new mongoose.Schema({
 const JobPostsSchema = new mongoose.Schema(
   {
     employerId: String,
-    about: aboutSchema,
-    accessibility: accessibilitySchema,
+    jobPost: {
+      about: aboutSchema,
+      accessibility: accessibilitySchema,
+    },
   },
   { collection: "jobPosts" }
 );
