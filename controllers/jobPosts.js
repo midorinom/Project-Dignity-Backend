@@ -28,8 +28,7 @@ const jobPostsUpdate = async (req, res) => {
     await JobPosts.updateOne(
       { _id: req.body.id },
       {
-        about: req.body.about,
-        accessibility: req.body.accessibility,
+        ...req.body,
       }
     );
     res.json({
