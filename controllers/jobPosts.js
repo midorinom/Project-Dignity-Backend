@@ -79,10 +79,30 @@ const jobPostsGet = async (req, res) => {
   }
 };
 
+// ======
+// Search
+// ======
+const jobPostsSearch = async (req, res) => {
+  try {
+    // Currently only filters by whether the search is a substring of the title. Can consider adding more search capabilities
+    const jobPosts = await JobPosts.find({
+      "jobPost.about.title": new RegExp(req.body.search, "i"), // the "i" option means case insensitive
+    });
+    res.json(jobPosts);
+  } catch (err) {
+    console.log("POST /api/jobposts/search", err);
+    res.status(400).json({
+      status: "error",
+      message: "an error has occurred when getting the searched job posts",
+    });
+  }
+};
+
 // Export
 module.exports = {
   jobPostsCreate,
   jobPostsUpdate,
   jobPostsDelete,
   jobPostsGet,
+  jobPostsSearch,
 };
