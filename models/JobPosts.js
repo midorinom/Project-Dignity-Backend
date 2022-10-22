@@ -24,19 +24,13 @@ const aboutSchema = new mongoose.Schema({
 
 // Nested Schemas inside accessibilitySchema
 
-const supportSchema = new mongoose.Schema({
-  structured: Boolean,
-  structuredElab: String,
-  shadowing: Boolean,
-  shadowingElab: String,
-  redesign: Boolean,
-  redesignElab: String,
-  assistive: Boolean,
-  assistiveElab: String,
-  social: Boolean,
-  socialElab: String,
-  trial: Boolean,
-  trialElab: String,
+const supportElabSchema = new mongoose.Schema({
+  structured: String,
+  shadowing: String,
+  redesign: String,
+  assistive: String,
+  social: String,
+  trial: String,
   others: { type: String, default: null }, // optional
 });
 
@@ -50,7 +44,8 @@ const environmentSchema = new mongoose.Schema({
 // "Accessibility Considerations" tab
 const accessibilitySchema = new mongoose.Schema({
   abilityDiff: [String],
-  support: supportSchema,
+  support: [String],
+  supportElab: supportElabSchema,
   environment: environmentSchema,
 });
 
