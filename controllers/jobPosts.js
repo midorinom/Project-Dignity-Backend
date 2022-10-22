@@ -84,10 +84,23 @@ const jobPostsGet = async (req, res) => {
 // ======
 const jobPostsSearch = async (req, res) => {
   try {
-    // Currently only filters by whether the search is a substring of the title. Can consider adding more search capabilities
-    const jobPosts = await JobPosts.find({
-      "jobPost.about.title": new RegExp(req.body.search, "i"), // the "i" option means case insensitive
-    });
+    const arrayOfSearchInputs = req.body.search.split(" "); // split by space
+    const filter = []; // This will be used in the .find as the filter
+
+    for (searchInput of arrayOfSearchInputs) {
+      const regex = new RegExp(searchInput, "i"); // the "i" option means case insensitive
+      filter.push({
+        $or: [
+          { "jobPost.about.title": regex },
+          { "jobPost.about.company": regex },
+          { "jobPost.about.type": regex },
+          { "jobPost.about.desc": regex },
+          { "jobPost.about.tasks": regex },
+          { "jobPost.about.skills": regex },
+        ],
+      });
+    }
+    const jobPosts = await JobPosts.find({ $and: [...filter] });
     res.json(jobPosts);
   } catch (err) {
     console.log("POST /api/jobposts/search", err);
