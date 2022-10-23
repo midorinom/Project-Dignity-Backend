@@ -68,7 +68,54 @@ const jobPostsDelete = async (req, res) => {
 // ===
 const jobPostsGet = async (req, res) => {
   try {
-    const jobPosts = await JobPosts.find(req.body);
+    console.log(req.body);
+
+    let jobPosts = [];
+
+    // If no body was sent
+    if (Object.keys(req.body).length === 0) {
+      jobPosts = await JobPosts.find();
+    } else {
+      // Apply filters
+      jobPosts = await JobPosts.find({
+        $and: [
+          {
+            "jobPost.accessibility.abilityDiff": {
+              $all: req.body.abilityDiff,
+            },
+          },
+          {
+            "jobPost.about.customerFacing": req.body.customerFacing,
+          },
+          {
+            "jobPost.accessibility.environment.noise": {
+              $gte: req.body.environment.minNoise,
+            },
+          },
+          {
+            "jobPost.accessibility.environment.noise": {
+              $lte: req.body.environment.maxNoise,
+            },
+          },
+          {
+            "jobPost.accessibility.environment.light": {
+              $gte: req.body.environment.minLight,
+            },
+          },
+          {
+            "jobPost.accessibility.environment.light": {
+              $lte: req.body.environment.maxLight,
+            },
+          },
+          {
+            "jobPost.accessibility.support": {
+              $all: req.body.support,
+            },
+          },
+        ],
+      });
+    }
+
     res.json(jobPosts);
   } catch (err) {
     console.log("POST /api/jobposts/get", err);
