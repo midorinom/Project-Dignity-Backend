@@ -63,23 +63,53 @@ const jobPostsDelete = async (req, res) => {
   }
 };
 
-// ===
-// Get
-// ===
+// =================================
+// Get (Includes Search and Filters)
+// =================================
 const jobPostsGet = async (req, res) => {
   try {
-    console.log(req.body);
-
+    // This array will be sent as the response
     let jobPosts = [];
 
-    // If no body was sent
+    // -------
+    // Get All
+    // -------
     if (Object.keys(req.body).length === 0) {
       jobPosts = await JobPosts.find();
     } else {
-      // If abilityDiff, customerFacing, Support are not clicked at all, set them to just be empty objects. Otherwise, set to the filter syntax
+      // ------
+      // Search
+      // ------
+      // This will be used in the .find, alongside the filters. Put an empty object inside because the array will be spread later and the result needs to be an object
+      let search = [{}];
+
+      // Check first if search exists in the body
+      if (Object.keys(req.body).some((element) => element === "search")) {
+        const arrayOfSearchInputs = req.body.search.split(" "); // split by space
+
+        for (searchInput of arrayOfSearchInputs) {
+          const regex = new RegExp(searchInput, "i"); // the "i" option means case insensitive
+          search.push({
+            $or: [
+              { "jobPost.about.title": regex },
+              { "jobPost.about.company": regex },
+              { "jobPost.about.type": regex },
+              { "jobPost.about.desc": regex },
+              { "jobPost.about.tasks": regex },
+              { "jobPost.about.skills": regex },
+            ],
+          });
+        }
+      }
+
+      // -------
+      // Filters
+      // -------
+      // Empty objects by default. Only set to the filter syntax if the respective filters are selected as all (exist in req.body).
       let abilityDiffFilter = {};
       let supportFilter = {};
       let customerFacingFilter = {};
+      let environmentFilter = [{}];
 
       if (req.body.abilityDiff.length > 0) {
         abilityDiffFilter = {
@@ -103,33 +133,39 @@ const jobPostsGet = async (req, res) => {
         };
       }
 
-      // The Filter function
+      environmentFilter = [
+        {
+          "jobPost.accessibility.environment.noise": {
+            $gte: req.body.environment.minNoise,
+          },
+        },
+        {
+          "jobPost.accessibility.environment.noise": {
+            $lte: req.body.environment.maxNoise,
+          },
+        },
+        {
+          "jobPost.accessibility.environment.light": {
+            $gte: req.body.environment.minLight,
+          },
+        },
+        {
+          "jobPost.accessibility.environment.light": {
+            $lte: req.body.environment.maxLight,
+          },
+        },
+      ];
+
+      // This will be used in the .find, alongside search
+      const filters = [
+        abilityDiffFilter,
+        supportFilter,
+        customerFacingFilter,
+        ...environmentFilter,
+      ];
+
       jobPosts = await JobPosts.find({
-        $and: [
-          abilityDiffFilter,
-          customerFacingFilter,
-          supportFilter,
-          {
-            "jobPost.accessibility.environment.noise": {
-              $gte: req.body.environment.minNoise,
-            },
-          },
-          {
-            "jobPost.accessibility.environment.noise": {
-              $lte: req.body.environment.maxNoise,
-            },
-          },
-          {
-            "jobPost.accessibility.environment.light": {
-              $gte: req.body.environment.minLight,
-            },
-          },
-          {
-            "jobPost.accessibility.environment.light": {
-              $lte: req.body.environment.maxLight,
-            },
-          },
-        ],
+        $and: [...search, ...filters],
       });
     }
 
@@ -144,43 +180,10 @@ const jobPostsGet = async (req, res) => {
   }
 };
 
-// ======
-// Search
-// ======
-const jobPostsSearch = async (req, res) => {
-  try {
-    const arrayOfSearchInputs = req.body.search.split(" "); // split by space
-    const filter = []; // This will be used in the .find as the filter
-
-    for (searchInput of arrayOfSearchInputs) {
-      const regex = new RegExp(searchInput, "i"); // the "i" option means case insensitive
-      filter.push({
-        $or: [
-          { "jobPost.about.title": regex },
-          { "jobPost.about.company": regex },
-          { "jobPost.about.type": regex },
-          { "jobPost.about.desc": regex },
-          { "jobPost.about.tasks": regex },
-          { "jobPost.about.skills": regex },
-        ],
-      });
-    }
-    const jobPosts = await JobPosts.find({ $and: [...filter] });
-    res.json(jobPosts);
-  } catch (err) {
-    console.log("POST /api/jobposts/search", err);
-    res.status(400).json({
-      status: "error",
-      message: "an error has occurred when getting the searched job posts",
-    });
-  }
-};
-
 // Export
 module.exports = {
   jobPostsCreate,
   jobPostsUpdate,
   jobPostsDelete,
   jobPostsGet,
-  jobPostsSearch,
 };
