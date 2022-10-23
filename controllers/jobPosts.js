@@ -80,26 +80,22 @@ const jobPostsGet = async (req, res) => {
       // ------
       // Search
       // ------
-      // This will be used in the .find, alongside the filters. Put an empty object inside because the array will be spread later and the result needs to be an object
-      let search = [{}];
+      // This will be used in the .find, alongside the filters
+      let search = [];
+      const arrayOfSearchInputs = req.body.search.split(" "); // split by space
 
-      // Check first if search exists in the body
-      if (Object.keys(req.body).some((element) => element === "search")) {
-        const arrayOfSearchInputs = req.body.search.split(" "); // split by space
-
-        for (searchInput of arrayOfSearchInputs) {
-          const regex = new RegExp(searchInput, "i"); // the "i" option means case insensitive
-          search.push({
-            $or: [
-              { "jobPost.about.title": regex },
-              { "jobPost.about.company": regex },
-              { "jobPost.about.type": regex },
-              { "jobPost.about.desc": regex },
-              { "jobPost.about.tasks": regex },
-              { "jobPost.about.skills": regex },
-            ],
-          });
-        }
+      for (searchInput of arrayOfSearchInputs) {
+        const regex = new RegExp(searchInput, "i"); // the "i" option means case insensitive
+        search.push({
+          $or: [
+            { "jobPost.about.title": regex },
+            { "jobPost.about.company": regex },
+            { "jobPost.about.type": regex },
+            { "jobPost.about.desc": regex },
+            { "jobPost.about.tasks": regex },
+            { "jobPost.about.skills": regex },
+          ],
+        });
       }
 
       // -------
@@ -109,7 +105,7 @@ const jobPostsGet = async (req, res) => {
       let abilityDiffFilter = {};
       let supportFilter = {};
       let customerFacingFilter = {};
-      let environmentFilter = [{}];
+      let environmentFilter = [];
 
       if (req.body.abilityDiff.length > 0) {
         abilityDiffFilter = {
