@@ -76,17 +76,39 @@ const jobPostsGet = async (req, res) => {
     if (Object.keys(req.body).length === 0) {
       jobPosts = await JobPosts.find();
     } else {
-      // Apply filters
+      // If abilityDiff, customerFacing, Support are not clicked at all, set them to just be empty objects. Otherwise, set to the filter syntax
+      let abilityDiffFilter = {};
+      let supportFilter = {};
+      let customerFacingFilter = {};
+
+      if (req.body.abilityDiff.length > 0) {
+        abilityDiffFilter = {
+          "jobPost.accessibility.abilityDiff": {
+            $all: req.body.abilityDiff,
+          },
+        };
+      }
+
+      if (req.body.support.length > 0) {
+        supportFilter = {
+          "jobPost.accessibility.support": {
+            $all: req.body.support,
+          },
+        };
+      }
+
+      if (req.body.customerFacing !== undefined) {
+        customerFacingFilter = {
+          "jobPost.about.customerFacing": req.body.customerFacing,
+        };
+      }
+
+      // The Filter function
       jobPosts = await JobPosts.find({
         $and: [
-          {
-            "jobPost.accessibility.abilityDiff": {
-              $all: req.body.abilityDiff,
-            },
-          },
-          {
-            "jobPost.about.customerFacing": req.body.customerFacing,
-          },
+          abilityDiffFilter,
+          customerFacingFilter,
+          supportFilter,
           {
             "jobPost.accessibility.environment.noise": {
               $gte: req.body.environment.minNoise,
@@ -107,15 +129,11 @@ const jobPostsGet = async (req, res) => {
               $lte: req.body.environment.maxLight,
             },
           },
-          {
-            "jobPost.accessibility.support": {
-              $all: req.body.support,
-            },
-          },
         ],
       });
     }
 
+    // Return
     res.json(jobPosts);
   } catch (err) {
     console.log("POST /api/jobposts/get", err);
