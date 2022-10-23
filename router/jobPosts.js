@@ -13,7 +13,6 @@ router.put("/create", jobPostsCreate);
 router.patch("/update", jobPostsUpdate);
 router.delete("/delete", jobPostsDelete);
 router.post("/get", jobPostsGet);
-router.post("/search", jobPostsSearch);
 
 // Export
 module.exports = router;
