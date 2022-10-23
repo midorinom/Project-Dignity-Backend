@@ -35,8 +35,8 @@ const supportElabSchema = new mongoose.Schema({
 });
 
 const environmentSchema = new mongoose.Schema({
-  noise: String,
-  light: String,
+  noise: Number,
+  light: Number,
   images: [String], // The image urls
   otherInfo: { type: String, default: null }, // optional
 });
