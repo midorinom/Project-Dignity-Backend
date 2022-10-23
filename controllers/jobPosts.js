@@ -68,6 +68,7 @@ const jobPostsDelete = async (req, res) => {
 // =================================
 const jobPostsGet = async (req, res) => {
   try {
+    console.log(req.body);
     // This array will be sent as the response
     let jobPosts = [];
 
