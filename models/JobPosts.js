@@ -59,6 +59,7 @@ const JobPostsSchema = new mongoose.Schema(
       about: aboutSchema,
       accessibility: accessibilitySchema,
     },
+    score: Number,
   },
   { collection: "jobPosts" }
 );

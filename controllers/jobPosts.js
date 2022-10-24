@@ -63,12 +63,12 @@ const jobPostsDelete = async (req, res) => {
   }
 };
 
-// =================================
-// Get (Includes Search and Filters)
-// =================================
+// ==========================================================
+// Get (Includes Initial Filter, Search, Filters and Sorting)
+// ==========================================================
 const jobPostsGet = async (req, res) => {
   try {
-    console.log(req.body);
+    console.log("Initial Filter", req.body.initialFilter);
     // This array will be sent as the response
     let jobPosts = [];
 
@@ -186,7 +186,81 @@ const jobPostsGet = async (req, res) => {
       $and: [initialFilter, ...search, ...filters],
     });
 
+    // ------------------------
+    // Sorting Recommended Jobs
+    // ------------------------
+    // The sorting only runs if the user is a Job Seeker
+    if (Object.keys(req.body).some((element) => element === "profile")) {
+      // Weightage given to each section. The total is 1 (100%).
+      const abilityDiffWeightage = 0.4;
+      const supportWeightage = 0.4;
+      const skillsWeightage = 0.2;
+
+      // Loop through each job post
+      for (const jobPost of jobPosts) {
+        // Initialise Variables
+        let abilityDiffScore = 0;
+        let supportScore = 0;
+        let skillsScore = 0;
+
+        for (const abilityDiff of req.body.profile.abilityDifferences.diff) {
+          if (
+            jobPost.jobPost.accessibility.abilityDiff.some(
+              (element) => element === abilityDiff
+            )
+          ) {
+            abilityDiffScore +=
+              (1 / req.body.profile.abilityDifferences.diff.length) * 100;
+          }
+        }
+
+        for (const support of req.body.profile.abilityDifferences.support) {
+          if (
+            jobPost.jobPost.accessibility.support.some(
+              (element) => element === support
+            )
+          ) {
+            supportScore +=
+              (1 / req.body.profile.abilityDifferences.support.length) * 100;
+          }
+        }
+
+        for (const skill of req.body.profile.skills) {
+          if (
+            jobPost.jobPost.about.skills.some(
+              (element) => element === skill.skill
+            )
+          ) {
+            skillsScore += (1 / req.body.profile.skills.length) * 100;
+          }
+        }
+
+        // Sum up and apply the respective weightage
+        let score = 0;
+        score =
+          abilityDiffScore * abilityDiffWeightage +
+          supportScore * supportWeightage +
+          skillsScore * skillsWeightage;
+
+        // Attach the score to a key-value pair in the jobPost
+        jobPost.score = score;
+      }
+
+      // After looping through the jobposts, sort by descending order
+      jobPosts.sort((a, b) => {
+        if (a.score > b.score) {
+          return -1;
+        } else if (a.score < b.score) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+
+    // ======
     // Return
+    // ======
     res.json(jobPosts);
   } catch (err) {
     console.log("POST /api/jobposts/get", err);
