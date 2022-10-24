@@ -95,6 +95,7 @@ const usersLogin = async (req, res) => {
       user = employerUser;
       response.type = "employer";
       response.id = employerUser._id;
+      response.company = employerUser.profile.company;
     }
 
     // Check if username and password match

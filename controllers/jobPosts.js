@@ -236,6 +236,10 @@ const jobPostsGet = async (req, res) => {
         }
 
         // Sum up and apply the respective weightage
+        console.log("AbilityDiff Score", abilityDiffScore);
+        console.log("Support Score", supportScore);
+        console.log("Skills Score", skillsScore);
+
         let score = 0;
         score =
           abilityDiffScore * abilityDiffWeightage +
@@ -244,6 +248,7 @@ const jobPostsGet = async (req, res) => {
 
         // Attach the score to a key-value pair in the jobPost
         jobPost.score = score;
+        console.log("Total Score", score);
       }
 
       // After looping through the jobposts, sort by descending order
