@@ -15,8 +15,7 @@ const skillsSchema = new mongoose.Schema({
   //cert -> issueYear optional. Default null.
   cert: { type: String, default: null },
   issuer: { type: String, default: null },
-  issueMonth: { type: String, default: null },
-  issueYear: { type: String, default: null },
+  issueDate: { type: String, default: null },
 });
 
 const abilityDifferencesSchema = new mongoose.Schema({
@@ -38,21 +37,17 @@ const experienceSchema = new mongoose.Schema({
   title: String,
   type: String,
   company: String,
-  startMonth: String,
-  startYear: String,
-  //endMonth/Year optional, only input if not working
-  endMonth: { type: String, default: null },
-  endYear: { type: String, default: null },
+  startDate: String,
+  //endDate optional, only input if not working
+  endDate: { type: String, default: null },
   jobDesc: String,
 });
 
 const educationSchema = new mongoose.Schema({
   school: String,
   cert: String,
-  startMonth: String,
-  startYear: String,
-  endMonth: String,
-  endYear: String,
+  startDate: String,
+  endDate: String,
   grade: String,
   desc: String,
 });

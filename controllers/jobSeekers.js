@@ -9,7 +9,7 @@ const jobSeekersGet = async (req, res) => {
     const profileData = await JobSeekers.find({ _id: req.body.id }).select(
       "-username -hash -_id"
     ); // exclude username, hash and id from being sent over to the front-end
-    res.json(profileData[0]);
+    res.json(profileData[0].profile);
   } catch (err) {
     console.log("POST /api/jobseekers/get", err);
     res.status(400).json({
