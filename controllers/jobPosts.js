@@ -72,6 +72,33 @@ const jobPostsGet = async (req, res) => {
     // This array will be sent as the response
     let jobPosts = [];
 
+    // --------------
+    // Initial Filter
+    // --------------
+    let initialFilter = {};
+
+    if (
+      Object.keys(req.body.initialFilter).some(
+        (element) => element === "abilityDiff"
+      )
+    ) {
+      initialFilter = {
+        "jobPost.accessibility.abilityDiff": {
+          $in: [req.body.initialFilter.abilityDiff],
+        },
+      };
+    } else if (
+      Object.keys(req.body.initialFilter).some(
+        (element) => element === "support"
+      )
+    ) {
+      initialFilter = {
+        "jobPost.accessibility.support": {
+          $in: [req.body.initialFilter.support],
+        },
+      };
+    }
+
     // ------
     // Search
     // ------
@@ -156,7 +183,7 @@ const jobPostsGet = async (req, res) => {
     ];
 
     jobPosts = await JobPosts.find({
-      $and: [...search, ...filters],
+      $and: [initialFilter, ...search, ...filters],
     });
 
     // Return
