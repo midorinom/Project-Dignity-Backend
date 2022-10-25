@@ -65,6 +65,8 @@ const JobSeekersSchema = new mongoose.Schema(
     username: String,
     hash: String,
     profile: jobseekerProfileSchema,
+    savedJobs: [String],
+    appliedJobs: [String],
   },
   { collection: "jobSeekers" }
 );
