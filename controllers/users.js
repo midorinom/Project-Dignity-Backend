@@ -93,6 +93,8 @@ const usersLogin = async (req, res) => {
       response.id = jobSeekerUser._id;
       if (jobSeekerUser.profile) {
         response.profileCompleted = true;
+      } else {
+        response.profileCompleted = false;
       }
     } else if (employerUser) {
       user = employerUser;
@@ -101,6 +103,8 @@ const usersLogin = async (req, res) => {
       response.company = employerUser.profile.company;
       if (employerUser.profile) {
         response.profileCompleted = true;
+      } else {
+        response.profileCompleted = false;
       }
     }
 
