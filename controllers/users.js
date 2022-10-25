@@ -92,6 +92,7 @@ const usersLogin = async (req, res) => {
       response.type = "jobSeeker";
       response.id = jobSeekerUser._id;
       response.appliedJobs = jobSeekerUser.appliedJobs;
+      response.savedJobs = jobSeekerUser.savedJobs;
       if (jobSeekerUser.profile) {
         response.profileCompleted = true;
       } else {

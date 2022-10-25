@@ -60,12 +60,17 @@ const jobseekerProfileSchema = new mongoose.Schema({
   education: [educationSchema],
 });
 
+const savedJobsSchema = new mongoose.Schema({
+  id: String,
+  date: String,
+});
+
 const JobSeekersSchema = new mongoose.Schema(
   {
     username: String,
     hash: String,
     profile: jobseekerProfileSchema,
-    savedJobs: [String],
+    savedJobs: [savedJobsSchema],
     appliedJobs: [String],
   },
   { collection: "jobSeekers" }
