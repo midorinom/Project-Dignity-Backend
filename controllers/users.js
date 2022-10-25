@@ -91,11 +91,17 @@ const usersLogin = async (req, res) => {
       user = jobSeekerUser;
       response.type = "jobSeeker";
       response.id = jobSeekerUser._id;
+      if (jobSeekerUser.profile) {
+        response.profileCompleted = true;
+      }
     } else if (employerUser) {
       user = employerUser;
       response.type = "employer";
       response.id = employerUser._id;
       response.company = employerUser.profile.company;
+      if (employerUser.profile) {
+        response.profileCompleted = true;
+      }
     }
 
     // Check if username and password match
