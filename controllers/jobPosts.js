@@ -293,6 +293,30 @@ const jobPostsGetEmployerId = async (req, res) => {
   }
 };
 
+// ===================
+// Get By Multiple Ids
+// ===================
+const jobPostsGetMultipleIds = async (req, res) => {
+  const idArray = req.body.ids.map((element) => {
+    return {
+      _id: element,
+    };
+  });
+
+  try {
+    const jobPosts = await JobPosts.find({
+      $or: [...idArray],
+    });
+    res.json(jobPosts);
+  } catch (err) {
+    console.log("POST /api/jobposts/get/employer-id", err);
+    res.status(400).json({
+      status: "error",
+      message: "an error has occurred when getting the applied/saved job posts",
+    });
+  }
+};
+
 // Export
 module.exports = {
   jobPostsCreate,
@@ -300,4 +324,5 @@ module.exports = {
   jobPostsDelete,
   jobPostsGet,
   jobPostsGetEmployerId,
+  jobPostsGetMultipleIds,
 };
