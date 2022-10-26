@@ -102,9 +102,9 @@ const usersLogin = async (req, res) => {
       user = employerUser;
       response.type = "employer";
       response.id = employerUser._id;
-      response.company = employerUser.profile.company;
       if (employerUser.profile) {
         response.profileCompleted = true;
+        response.company = employerUser.profile.company;
       } else {
         response.profileCompleted = false;
       }
