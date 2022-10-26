@@ -276,10 +276,28 @@ const jobPostsGet = async (req, res) => {
   }
 };
 
+// ==================
+// Get By Employer Id
+// ==================
+const jobPostsGetEmployerId = async (req, res) => {
+  try {
+    const jobPosts = await JobPosts.find({ employerId: req.body.employerId });
+    res.json(jobPosts);
+  } catch (err) {
+    console.log("POST /api/jobposts/get/employer-id", err);
+    res.status(400).json({
+      status: "error",
+      message:
+        "an error has occurred when getting the job posts made by the employer",
+    });
+  }
+};
+
 // Export
 module.exports = {
   jobPostsCreate,
   jobPostsUpdate,
   jobPostsDelete,
   jobPostsGet,
+  jobPostsGetEmployerId,
 };
