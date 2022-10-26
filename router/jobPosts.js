@@ -7,6 +7,7 @@ const {
   jobPostsDelete,
   jobPostsGet,
   jobPostsGetEmployerId,
+  jobPostsGetMultipleIds,
 } = require("../controllers/jobPosts");
 
 // Endpoints
@@ -15,6 +16,7 @@ router.patch("/update", jobPostsUpdate);
 router.delete("/delete", jobPostsDelete);
 router.post("/get", jobPostsGet);
 router.post("/get/employer-id", jobPostsGetEmployerId);
+router.post("/get/multiple-ids", jobPostsGetMultipleIds);
 
 // Export
 module.exports = router;
